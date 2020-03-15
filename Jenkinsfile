@@ -27,7 +27,7 @@ pipeline {
     }
     post {
         success {
-            echo env
+            echo sh(script: 'env|sort', returnStdout: true)
         }
     }
 }
