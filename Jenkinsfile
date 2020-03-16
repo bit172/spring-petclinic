@@ -9,6 +9,7 @@ pipeline {
         stage('Test') {
             steps {
                 sh './mvnw test' 
+                sh './mvnw test'  
             }
         }
         stage('Package') {
@@ -36,6 +37,5 @@ pipeline {
                 subject: "Failed Pipeline: ${currentBuild.fullDisplayName}",
                 body: "Build Failure, location to build ${env.BUILD_URL}"
         }
-
     }
 }
