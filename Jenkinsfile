@@ -9,6 +9,7 @@ pipeline {
         stage('Test') {
             steps {
                 sh './mvnw test' 
+                sh './mvnw test'  
             }
         }
         stage('Package') {
@@ -17,10 +18,24 @@ pipeline {
             }
         }
         stage('Deploy') {
+            when {
+                branch 'master'
+            }
             steps {
                 sh './mvnw deploy' 
             }
         }
-
+    }
+    post {
+        success {
+            mail to: 'bit172@gmail.com',
+                subject: "Successful Pipeline: ${currentBuild.fullDisplayName}",
+                body: "Successful build ${env.BUILD_URL}"
+        }
+        failure {
+            mail to: 'bit172@gmail.com',
+                subject: "Failed Pipeline: ${currentBuild.fullDisplayName}",
+                body: "Build Failure, location to build ${env.BUILD_URL}"
+        }
     }
 }
